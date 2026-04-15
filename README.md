@@ -2,9 +2,28 @@
 
 # Parse API Messages
 
+[![Release](https://img.shields.io/github/v/release/TimurTurdyev/my-tools-parse-message-waviot?color=6366f1&label=release)](https://github.com/TimurTurdyev/my-tools-parse-message-waviot/releases/latest)
+[![License: MIT](https://img.shields.io/github/license/TimurTurdyev/my-tools-parse-message-waviot?color=6366f1)](LICENSE)
+[![Go](https://img.shields.io/badge/Go-1.22-00ADD8?logo=go&logoColor=white)](https://go.dev)
+[![Wails](https://img.shields.io/badge/Wails-v2.12-df0000)](https://wails.io)
+[![Vue](https://img.shields.io/badge/Vue-3.5-4FC08D?logo=vue.js&logoColor=white)](https://vuejs.org)
+[![Vite](https://img.shields.io/badge/Vite-7-646CFF?logo=vite&logoColor=white)](https://vite.dev)
+[![Tailwind](https://img.shields.io/badge/Tailwind-4-38BDF8?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
+![Platforms](https://img.shields.io/badge/platform-macOS%20%7C%20Windows-0ea5e9)
+
 > Персональный desktop-инструмент для быстрого просмотра и разбора сообщений API WAVIOT.
 
 Wails-приложение (Go + Vue 3): вставляете URL вида `https://api.waviot.ru/api/eav?modem_id=...&obis_code=value`, приложение добавляет ваш `WAVIOT_JWT`-cookie, делает GET и показывает данные в виде карточек по модемам и метрикам (obis-кодам), с поиском, сортировкой, экспортом в CSV и сменой таймзоны без повторного запроса.
+
+## Скриншот
+
+<!--
+  Сделайте снимок приложения в работе (полный экран с карточками данных),
+  сохраните файл как screenshot.png в корень проекта. Картинка подтянется
+  сюда автоматически — GitHub рендерит .png из markdown без дополнительной
+  обработки.
+-->
+![Скриншот приложения](screenshot.png)
 
 ## Быстрый старт
 
