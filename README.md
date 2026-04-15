@@ -38,6 +38,19 @@ make release         # all + упаковка в zip в build/release/
 - `parse-api-messages-<version>-darwin-universal.zip`
 - `parse-api-messages-<version>-windows-amd64.zip`
 
+### GitHub Release через CI
+
+Для публичных релизов настроен `.github/workflows/release.yml` — GitHub Actions с матрицей `macos-latest + windows-latest`:
+
+```bash
+# поднять версию в wails.json (например 2.1.0)
+git commit -am "chore: bump version to 2.1.0"
+git tag v2.1.0
+git push github v2.1.0
+```
+
+После пуша тега CI соберёт оба бинарника, упакует в zip и создаст GitHub Release с авто-сгенерированным changelog (из PR/коммитов). Можно также запустить вручную через Actions → `release` → `Run workflow` — тогда соберёт артефакты, но релиз не публикует.
+
 ### ⚠️ macOS: приложение не подписано
 
 Сборка делается **без Apple Developer-подписи и без нотаризации**. Это значит:
