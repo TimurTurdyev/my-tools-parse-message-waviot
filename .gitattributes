@@ -1,0 +1,10 @@
+# Wails-биндинги и runtime генерируются CLI, не редактируются руками.
+# Исключаем из статистики языков GitHub (и из diff по умолчанию).
+frontend/wailsjs/** linguist-generated=true
+
+# Wails build-конфиги (Info.plist, manifest, icon config).
+build/** linguist-vendored=true
+
+# Lock-файлы зависимостей.
+frontend/package-lock.json linguist-generated=true
+go.sum linguist-generated=true
