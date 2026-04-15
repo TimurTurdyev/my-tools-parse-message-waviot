@@ -1,58 +1,134 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Parse API Messages">
-  <title>Parse API Messages</title>
+  <title>Parse API Messages — IoT-устройство передаёт сообщения, приложение ловит и показывает</title>
+
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#0ea5e9"/>
       <stop offset="100%" stop-color="#6366f1"/>
     </linearGradient>
-    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="2" result="blur"/>
-      <feMerge>
-        <feMergeNode in="blur"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
+
+    <!-- Путь для «пакетов данных», летящих от устройства к приложению -->
+    <path id="flow" d="M 92 128 Q 128 80 168 112"/>
   </defs>
 
-  <!-- rounded-square background -->
+  <!-- Фон -->
   <rect width="256" height="256" rx="52" fill="url(#bg)"/>
-
-  <!-- soft inner highlight -->
   <rect x="6" y="6" width="244" height="244" rx="46" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="2"/>
 
-  <g stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" fill="none" filter="url(#glow)">
-    <!-- left brace { -->
-    <path d="M 92 56
-             L 80 56
-             Q 64 56 64 76
-             L 64 116
-             Q 64 128 48 128
-             Q 64 128 64 140
-             L 64 180
-             Q 64 200 80 200
-             L 92 200"
-          stroke-width="10"/>
+  <!-- ================= IoT устройство (слева) ================= -->
+  <g stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" fill="none">
 
-    <!-- right brace } -->
-    <path d="M 164 56
-             L 176 56
-             Q 192 56 192 76
-             L 192 116
-             Q 192 128 208 128
-             Q 192 128 192 140
-             L 192 180
-             Q 192 200 176 200
-             L 164 200"
-          stroke-width="10"/>
+    <!-- Корпус meter-box -->
+    <rect x="28" y="108" width="64" height="76" rx="8" stroke-width="5"/>
 
-    <!-- data rows -->
-    <line x1="96" y1="100" x2="160" y2="100" stroke-width="12"/>
-    <line x1="96" y1="128" x2="144" y2="128" stroke-width="12"/>
-    <line x1="96" y1="156" x2="168" y2="156" stroke-width="12"/>
+    <!-- Экран -->
+    <rect x="36" y="118" width="48" height="18" rx="3" stroke-width="3" fill="rgba(255,255,255,0.25)"/>
 
-    <!-- three small dots representing value markers on the right side -->
-    <circle cx="176" cy="100" r="4" fill="#ffffff" stroke="none"/>
-    <circle cx="160" cy="128" r="4" fill="#ffffff" stroke="none"/>
-    <circle cx="184" cy="156" r="4" fill="#ffffff" stroke="none"/>
+    <!-- «Цифры» на экране — мигают как работающий LCD -->
+    <g stroke-width="3">
+      <line x1="42" y1="127" x2="50" y2="127">
+        <animate attributeName="opacity" values="1;0.3;1" dur="1.8s" repeatCount="indefinite"/>
+      </line>
+      <line x1="54" y1="127" x2="62" y2="127">
+        <animate attributeName="opacity" values="0.3;1;0.3" dur="1.8s" repeatCount="indefinite"/>
+      </line>
+      <line x1="66" y1="127" x2="74" y2="127">
+        <animate attributeName="opacity" values="1;0.3;1" dur="1.8s" begin="0.3s" repeatCount="indefinite"/>
+      </line>
+    </g>
+
+    <!-- Кнопки внизу -->
+    <circle cx="44" cy="158" r="3" fill="#ffffff" stroke="none"/>
+    <circle cx="60" cy="158" r="3" fill="#ffffff" stroke="none"/>
+    <circle cx="76" cy="158" r="3" fill="#ffffff" stroke="none"/>
+
+    <!-- Провод питания из нижнего правого угла -->
+    <path d="M 92 174 Q 100 174 100 184 L 100 208" stroke-width="4"/>
+
+    <!-- Антенна -->
+    <line x1="60" y1="108" x2="60" y2="78" stroke-width="4"/>
+    <circle cx="60" cy="76" r="4" fill="#ffffff" stroke="none"/>
+  </g>
+
+  <!-- ================= Радиоволны — пульсируют наружу ================= -->
+  <g fill="none" stroke="#ffffff" stroke-linecap="round" stroke-width="3">
+    <path d="M 68 68 A 12 12 0 0 1 68 84" opacity="0">
+      <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 76 60 A 20 20 0 0 1 76 92" opacity="0">
+      <animate attributeName="opacity" values="0;1;0" dur="2s" begin="0.35s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 84 52 A 28 28 0 0 1 84 100" opacity="0">
+      <animate attributeName="opacity" values="0;0.8;0" dur="2s" begin="0.7s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- ================= «Пакеты данных» летят по траектории ================= -->
+  <g fill="#ffffff">
+    <circle r="4">
+      <animateMotion dur="2.4s" repeatCount="indefinite">
+        <mpath href="#flow"/>
+      </animateMotion>
+      <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="4">
+      <animateMotion dur="2.4s" begin="0.8s" repeatCount="indefinite">
+        <mpath href="#flow"/>
+      </animateMotion>
+      <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="2.4s" begin="0.8s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="4">
+      <animateMotion dur="2.4s" begin="1.6s" repeatCount="indefinite">
+        <mpath href="#flow"/>
+      </animateMotion>
+      <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="2.4s" begin="1.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- ================= Приложение (справа) ================= -->
+  <g>
+    <!-- Рамка окна -->
+    <rect x="148" y="72" width="88" height="132" rx="10" fill="none" stroke="#ffffff" stroke-width="5"/>
+
+    <!-- Полоса заголовка -->
+    <rect x="154" y="78" width="76" height="14" rx="3" fill="rgba(255,255,255,0.25)"/>
+    <!-- Три «кнопки» заголовка -->
+    <circle cx="161" cy="85" r="2.2" fill="#ffffff"/>
+    <circle cx="168" cy="85" r="2.2" fill="#ffffff"/>
+    <circle cx="175" cy="85" r="2.2" fill="#ffffff"/>
+
+    <!-- «Индикатор JWT» — зелёная точка, мигает -->
+    <circle cx="224" cy="85" r="3" fill="#4ade80">
+      <animate attributeName="opacity" values="1;0.35;1" dur="1.4s" repeatCount="indefinite"/>
+    </circle>
+
+    <!-- Три строки данных — появляются последовательно -->
+    <g stroke="#ffffff" stroke-width="5" stroke-linecap="round">
+      <line x1="160" y1="110" x2="220" y2="110" opacity="0">
+        <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.1;0.2;0.9;1" dur="2.4s" repeatCount="indefinite"/>
+      </line>
+      <line x1="160" y1="128" x2="210" y2="128" opacity="0">
+        <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.1;0.2;0.9;1" dur="2.4s" begin="0.8s" repeatCount="indefinite"/>
+      </line>
+      <line x1="160" y1="146" x2="224" y2="146" opacity="0">
+        <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.1;0.2;0.9;1" dur="2.4s" begin="1.6s" repeatCount="indefinite"/>
+      </line>
+    </g>
+
+    <!-- Мелкие «значения» справа от строк — тоже мигают -->
+    <g fill="#ffffff">
+      <circle cx="226" cy="110" r="2.5" opacity="0">
+        <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.12;0.22;0.9;1" dur="2.4s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="216" cy="128" r="2.5" opacity="0">
+        <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.12;0.22;0.9;1" dur="2.4s" begin="0.8s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="230" cy="146" r="2.5" opacity="0">
+        <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.12;0.22;0.9;1" dur="2.4s" begin="1.6s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+
+    <!-- Нижняя «кнопка действия» в приложении -->
+    <rect x="160" y="172" width="60" height="18" rx="5" fill="rgba(255,255,255,0.25)" stroke="#ffffff" stroke-width="2"/>
   </g>
 </svg>
