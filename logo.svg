@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Parse API Messages">
+  <title>Parse API Messages</title>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0ea5e9"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- rounded-square background -->
+  <rect width="256" height="256" rx="52" fill="url(#bg)"/>
+
+  <!-- soft inner highlight -->
+  <rect x="6" y="6" width="244" height="244" rx="46" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="2"/>
+
+  <g stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" fill="none" filter="url(#glow)">
+    <!-- left brace { -->
+    <path d="M 92 56
+             L 80 56
+             Q 64 56 64 76
+             L 64 116
+             Q 64 128 48 128
+             Q 64 128 64 140
+             L 64 180
+             Q 64 200 80 200
+             L 92 200"
+          stroke-width="10"/>
+
+    <!-- right brace } -->
+    <path d="M 164 56
+             L 176 56
+             Q 192 56 192 76
+             L 192 116
+             Q 192 128 208 128
+             Q 192 128 192 140
+             L 192 180
+             Q 192 200 176 200
+             L 164 200"
+          stroke-width="10"/>
+
+    <!-- data rows -->
+    <line x1="96" y1="100" x2="160" y2="100" stroke-width="12"/>
+    <line x1="96" y1="128" x2="144" y2="128" stroke-width="12"/>
+    <line x1="96" y1="156" x2="168" y2="156" stroke-width="12"/>
+
+    <!-- three small dots representing value markers on the right side -->
+    <circle cx="176" cy="100" r="4" fill="#ffffff" stroke="none"/>
+    <circle cx="160" cy="128" r="4" fill="#ffffff" stroke="none"/>
+    <circle cx="184" cy="156" r="4" fill="#ffffff" stroke="none"/>
+  </g>
+</svg>

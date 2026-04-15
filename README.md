@@ -1,6 +1,14 @@
-# Parse API Messages
+<p align="center">
+  <img src="logo.svg" alt="Parse API Messages" width="128" height="128"/>
+</p>
 
-> Персональный desktop-инструмент для быстрого просмотра и разбора сообщений API WAVIOT.
+<h1 align="center">Parse API Messages</h1>
+
+<p align="center">
+  <i>Персональный desktop-инструмент для быстрого просмотра и разбора сообщений API WAVIOT.</i>
+</p>
+
+---
 
 Wails-приложение (Go + Vue 3): вставляете URL вида `https://api.waviot.ru/api/eav?modem_id=...&obis_code=value`, приложение добавляет ваш `WAVIOT_JWT`-cookie, делает GET и показывает данные в виде карточек по модемам и метрикам (obis-кодам), с поиском, сортировкой, экспортом в CSV и сменой таймзоны без повторного запроса.
 
