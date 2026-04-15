@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Parse API Messages</title>
+    <script>
+      // Инлайн-скрипт в <head>, чтобы не было мигания темы (FOUC)
+      // при загрузке: выставляем класс .dark до применения CSS.
+      (function () {
+        try {
+          var saved = localStorage.getItem('parse-api-messages:theme');
+          var dark = saved ? saved === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (saved == null) dark = true; // дефолт приложения — dark
+          if (dark) document.documentElement.classList.add('dark');
+        } catch (e) {}
+      })();
+    </script>
+</head>
+<body class="min-h-screen">
+<div id="app"></div>
+<script src="./src/main.js" type="module"></script>
+</body>
+</html>

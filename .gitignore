@@ -1,0 +1,23 @@
+# Build artifacts
+build/bin
+build/darwin/build
+build/windows/*.exe
+frontend/dist
+frontend/package.json.md5
+bin/
+
+# Dependencies
+node_modules
+
+# IDE / OS noise
+.DS_Store
+.idea/workspace.xml
+.vscode/
+
+# Secrets & local state
+*.env
+.env*
+secrets/
+*.pem
+*.key
+~/.parse-api-messages/
