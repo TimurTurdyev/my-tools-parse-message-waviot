@@ -7,6 +7,7 @@ import ErrorBanner from './components/error-banner.vue'
 import { useAuth } from './composables/useAuth.js'
 import { useMessages } from './composables/useMessages.js'
 import { useTheme } from './composables/useTheme.js'
+import { useCardHeight } from './composables/useCardHeight.js'
 
 const form = reactive({
   urls: '',
@@ -16,6 +17,15 @@ const form = reactive({
 const auth = useAuth()
 const msgs = useMessages()
 const { theme, toggle: toggleTheme } = useTheme()
+const cardHeight = useCardHeight()
+
+watch(
+  () => cardHeight.height.value,
+  (preset) => {
+    console.debug('[App] card height preset =', preset, '(', cardHeight.heightPx.value, 'px )')
+  },
+  { immediate: true },
+)
 
 // Auth-панель раскрыта автоматически если JWT не валиден.
 const authPanelForcedOpen = ref(false)
@@ -146,6 +156,27 @@ async function exportAllCsv() {
           <span class="text-xs ui-text-dim">WAVIOT</span>
         </div>
         <div class="flex items-center gap-2">
+          <!-- Высота карточек: пресеты S / M / L / XL -->
+          <div
+            class="inline-flex items-center gap-0.5 p-0.5 rounded-full border bg-slate-100 border-slate-300 dark:bg-slate-800 dark:border-slate-700"
+            title="Высота карточек"
+          >
+            <span class="ui-text-dim text-[10px] px-1.5 select-none">H</span>
+            <button
+              v-for="preset in cardHeight.order"
+              :key="preset"
+              type="button"
+              class="px-1.5 py-0.5 rounded-full text-[11px] font-medium transition"
+              :class="cardHeight.height.value === preset
+                ? 'bg-blue-100 dark:bg-blue-600/30 text-blue-700 dark:text-blue-200'
+                : 'text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700/60'"
+              :title="cardHeight.titles[preset]"
+              @click="cardHeight.setHeight(preset)"
+            >
+              {{ cardHeight.labels[preset] }}
+            </button>
+          </div>
+
           <!-- Переключатель темы -->
           <button
             type="button"
@@ -287,6 +318,7 @@ async function exportAllCsv() {
                 :obis-code="card.obisCode"
                 :samples="card.samples"
                 :timezone="form.timezone"
+                :max-height-px="cardHeight.heightPx.value"
               />
             </div>
           </div>

@@ -6,7 +6,47 @@ const props = defineProps({
   obisCode: { type: String, required: true },
   samples: { type: Array, required: true }, // [{time, value}]
   timezone: { type: String, default: 'UTC' },
+  maxHeightPx: { type: Number, default: 512 }, // 32rem — исторический дефолт
 })
+
+// Per-card override: пользователь может развернуть конкретную карточку
+// до фактически безграничной высоты, не трогая глобальный пресет.
+const expanded = ref(false)
+
+const EXPANDED_MAX_PX = 100000
+
+const effectiveMaxHeight = computed(() =>
+  expanded.value ? EXPANDED_MAX_PX : props.maxHeightPx,
+)
+
+watch(
+  () => props.maxHeightPx,
+  (val) => {
+    console.debug(
+      '[metric-card] maxHeightPx =',
+      val,
+      'modem=',
+      props.modem,
+      'obis=',
+      props.obisCode,
+    )
+  },
+)
+
+watch(expanded, (val) => {
+  console.debug(
+    '[metric-card] expanded =',
+    val,
+    'modem=',
+    props.modem,
+    'obis=',
+    props.obisCode,
+  )
+})
+
+function toggleExpanded() {
+  expanded.value = !expanded.value
+}
 
 // ------------------------------------------------------------
 // Локальное состояние карточки
@@ -240,7 +280,10 @@ const padBottom = computed(() =>
 </script>
 
 <template>
-  <article class="ui-card flex flex-col min-h-0 max-h-[32rem] overflow-hidden">
+  <article
+    class="ui-card flex flex-col min-h-0 overflow-hidden"
+    :style="{ maxHeight: effectiveMaxHeight + 'px' }"
+  >
     <!-- Header -->
     <header class="px-4 py-3 border-b border-slate-200 dark:border-slate-700 bg-slate-50/80 dark:bg-slate-800/80">
       <div class="flex items-center justify-between gap-2 mb-1">
@@ -253,9 +296,32 @@ const padBottom = computed(() =>
       </div>
       <div class="flex items-center justify-between gap-2 text-[10px] ui-text-dim font-mono">
         <span class="truncate">modem {{ modem }} · hex {{ decToHex(modem) }}</span>
-        <button type="button" class="ui-btn-ghost-sm" @click="copyCsv">
-          {{ copied ? '✓' : 'CSV' }}
-        </button>
+        <div class="flex items-center gap-1 shrink-0">
+          <button
+            type="button"
+            class="ui-btn-ghost-sm !px-1.5"
+            :title="expanded ? 'Свернуть карточку' : 'Развернуть карточку'"
+            @click="toggleExpanded"
+          >
+            <svg
+              v-if="!expanded"
+              class="w-3 h-3"
+              viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h5M3 3v5M17 17h-5M17 17v-5M3 17h5M3 17v-5M17 3h-5M17 3v5"/>
+            </svg>
+            <svg
+              v-else
+              class="w-3 h-3"
+              viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8 3v5H3M12 3v5h5M8 17v-5H3M12 17v-5h5"/>
+            </svg>
+          </button>
+          <button type="button" class="ui-btn-ghost-sm" @click="copyCsv">
+            {{ copied ? '✓' : 'CSV' }}
+          </button>
+        </div>
       </div>
 
       <!-- Stats: min / max / avg -->
